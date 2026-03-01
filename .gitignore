@@ -1,0 +1,7 @@
+.spectra/
+openspec/.vector-search.db
+
+# Data
+data/raw/
+data/*.txt
+

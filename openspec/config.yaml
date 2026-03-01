@@ -1,0 +1,19 @@
+schema: spec-driven
+
+context: |
+  專案名稱：PortfolioAnalytics（個人資產部位視覺化）
+  目標用戶：長輩，需要在手機或電腦上簡單操作
+  資料來源：Google Sheets
+  部署策略：低成本（GitHub Pages / Vercel 等靜態部署）
+  技術棧：HTML, CSS, JavaScript（盡量簡單）
+  語言：繁體中文（Traditional Chinese）
+  設計原則：介面簡潔、字體大、操作直覺、RWD 響應式
+
+rules:
+  proposal:
+    - 用繁體中文撰寫
+    - 保持簡短，500 字以內
+    - 必須包含「非目標」段落
+  tasks:
+    - 每個任務控制在 2 小時以內
+    - 任務描述要具體可驗證
