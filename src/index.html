@@ -1,117 +1,171 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人資產部位視覺化</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Chart.js CDN -->
+    <title>資產部位儀表板</title>
+    <meta name="description" content="個人資產部位視覺化決策儀表板">
+
+    <!-- Pico CSS (Classless + Minimal) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <header>
-        <h1>資產總覽儀表板</h1>
-        <div class="last-updated">最後更新: 2025年12月</div>
+    <header class="container">
+        <nav>
+            <ul>
+                <li><strong>📊 資產部位儀表板</strong></li>
+            </ul>
+            <ul>
+                <li><small class="last-updated">最後更新: 2025年12月</small></li>
+                <li>
+                    <button id="theme-toggle" class="outline contrast" aria-label="切換深色模式">🌙</button>
+                </li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-        <!-- 維度篩選區塊 -->
-        <section class="filter-section card">
-            <h2>多維度篩選</h2>
-            <div class="filter-grid">
-                <div class="filter-item">
-                    <label for="bank-filter">銀行</label>
-                    <select id="bank-filter">
-                        <option value="all">全部銀行</option>
-                    </select>
+    <main class="container">
+        <!-- Tab Navigation -->
+        <nav id="tab-bar" class="tab-bar" role="tablist">
+            <button class="tab-btn active" data-tab="watchlist" role="tab" aria-selected="true">
+                📋 部位總覽
+            </button>
+            <button class="tab-btn" data-tab="chart" role="tab" aria-selected="false">
+                📈 走勢分析
+            </button>
+            <button class="tab-btn" data-tab="fund-info" role="tab" aria-selected="false">
+                📄 基金資料
+            </button>
+            <button class="tab-btn" data-tab="analysis" role="tab" aria-selected="false">
+                🔍 庫存分析
+            </button>
+        </nav>
+
+        <!-- ==================== Tab 1: Watchlist ==================== -->
+        <section id="panel-watchlist" role="tabpanel">
+            <!-- Tag Filters -->
+            <div id="tag-filters" class="tag-filters-container"></div>
+
+            <!-- Preset Selector -->
+            <div id="preset-selector" class="preset-container"></div>
+
+            <!-- Watchlist Table -->
+            <div id="watchlist-table" class="table-container"></div>
+        </section>
+
+        <!-- ==================== Tab 2: Chart ==================== -->
+        <section id="panel-chart" role="tabpanel" hidden>
+            <!-- Summary Card -->
+            <article id="chart-summary-card" class="summary-card"></article>
+
+            <!-- Fund Selector -->
+            <div class="chart-controls">
+                <select id="chart-fund-select" aria-label="選擇基金"></select>
+                <div class="toggle-group">
+                    <button class="chart-div-toggle active" data-mode="inclusive">含息</button>
+                    <button class="chart-div-toggle" data-mode="exclusive">不含息</button>
                 </div>
-                <div class="filter-item">
-                    <label for="currency-filter">幣別</label>
-                    <select id="currency-filter">
-                        <option value="all">全部幣別</option>
-                        <option value="USD">USD 美元</option>
-                        <option value="NTD">NTD 台幣</option>
-                        <option value="CNY">CNY 人民幣</option>
-                    </select>
-                </div>
-                <div class="filter-item">
-                    <label for="dividend-filter">配息類型</label>
-                    <select id="dividend-filter">
-                        <option value="all">全部</option>
-                        <option value="月">月配息</option>
-                        <option value="無">無配息</option>
-                    </select>
-                </div>
-                <!-- 可以擴增年份或季度篩選 -->
+            </div>
+
+            <!-- Comparison Controls -->
+            <div id="comparison-controls" class="comparison-container"></div>
+
+            <!-- Chart Canvas -->
+            <div class="chart-wrapper">
+                <canvas id="trendChart"></canvas>
             </div>
         </section>
 
-        <!-- 總資產 Overview 區塊 -->
-        <section class="overview-section">
-            <div class="card chart-container">
-                <h2>總資產月度走勢 (NTD)</h2>
-                <div style="position: relative; height:300px;">
-                     <canvas id="totalAssetChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="card chart-container">
-                <h2>銀行現金流 (累計配息)</h2>
-                <div style="position: relative; height:300px;">
-                     <canvas id="cashFlowChart"></canvas>
-                </div>
-            </div>
-
-            <div class="card chart-container">
-                <h2>資產佔比分析</h2>
-                <div class="toggle-group">
-                    <button class="toggle-btn active" data-target="bank">依銀行</button>
-                    <button class="toggle-btn" data-target="currency">依幣別</button>
-                </div>
-                <div style="position: relative; height:300px;">
-                     <canvas id="distributionChart"></canvas>
-                </div>
-            </div>
+        <!-- ==================== Tab 3: Fund Info (Shell) ==================== -->
+        <section id="panel-fund-info" role="tabpanel" hidden>
+            <!-- Rendered by fund-info.js -->
         </section>
 
-        <!-- 個別基金深入區塊 -->
-        <section class="detail-section card">
-            <div class="detail-header">
-                <h2>個別基金深入分析</h2>
-                <div class="fund-selector">
-                    <label for="fund-filter">選擇基金：</label>
-                    <select id="fund-filter">
-                        <!-- Options generated dynamically -->
-                    </select>
+        <!-- ==================== Tab 4: Analysis ==================== -->
+        <section id="panel-analysis" role="tabpanel" hidden>
+            <!-- Total Asset Trend -->
+            <article>
+                <header>
+                    <h2>總資產走勢</h2>
+                </header>
+                <div class="chart-wrapper">
+                    <canvas id="totalAssetChart2"></canvas>
                 </div>
-            </div>
-            
-            <div class="fund-info-card" id="fund-info-display">
-                <!-- 漲跌指標與基礎資訊 -->
-                <div class="info-row">
-                    <span class="info-label">目前現值：</span>
-                    <span id="fund-current-value" class="info-value">--</span>
-                    <span id="fund-trend-indicator" class="trend-icon"></span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">累計配息：</span>
-                    <span id="fund-dividend" class="info-value">--</span>
-                </div>
-            </div>
+            </article>
 
-            <div class="chart-container">
-                <div class="toggle-group">
-                    <button class="toggle-btn return-toggle active" data-mode="inclusive">含息報酬 (總價值)</button>
-                    <button class="toggle-btn return-toggle" data-mode="exclusive">不含息報酬 (僅資本利得)</button>
+            <!-- Distribution -->
+            <article>
+                <header>
+                    <h2>資產配置分佈</h2>
+                    <div class="toggle-group">
+                        <button class="dist-toggle active" data-mode="bank">依銀行</button>
+                        <button class="dist-toggle" data-mode="currency">依幣別</button>
+                        <button class="dist-toggle" data-mode="dividendType">依配息</button>
+                    </div>
+                </header>
+                <div class="chart-wrapper">
+                    <canvas id="distributionChart2"></canvas>
                 </div>
-                <div style="position: relative; height:300px;">
-                    <canvas id="fundDetailChart"></canvas>
+            </article>
+
+            <!-- Monthly Dividend Income -->
+            <article>
+                <header>
+                    <h2>月配息收入</h2>
+                </header>
+                <div class="chart-wrapper">
+                    <canvas id="dividendIncomeChart"></canvas>
                 </div>
-            </div>
+            </article>
+
+            <!-- P/L Ranking -->
+            <article>
+                <header>
+                    <h2>損益排行</h2>
+                </header>
+                <div class="chart-wrapper chart-wrapper-tall">
+                    <canvas id="plRankingChart"></canvas>
+                </div>
+            </article>
+
+            <!-- Bank Cash Flow -->
+            <article>
+                <header>
+                    <h2>銀行現金流（累計配息）</h2>
+                </header>
+                <div class="chart-wrapper">
+                    <canvas id="cashFlowChart2"></canvas>
+                </div>
+            </article>
         </section>
     </main>
 
-    <script src="app.js"></script>
+    <!-- Theme Toggle Script (inline, runs before module) -->
+    <script>
+        const toggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+        const stored = localStorage.getItem('theme');
+        if (stored) html.setAttribute('data-theme', stored);
+        toggle.textContent = html.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
+        toggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
+    </script>
+
+    <!-- App Entry Point (ES Module) -->
+    <script type="module" src="js/main.js"></script>
 </body>
+
 </html>
