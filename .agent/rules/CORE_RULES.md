@@ -76,6 +76,19 @@ trigger: always_on
    - 偵測 prompt 模糊時，主動建議改進
    - 例：「你的問題缺少 X 資訊，建議補充 Y」
 
+7. Git 版控提醒（自動觸發）
+   - 當工作到達一個「邏輯完整的節點」時，主動提醒使用者是否適合進行版本控制。
+   - **觸發條件**（符合任一即提醒）：
+     - 完成一個 OpenSpec artifact（proposal / design / specs / tasks）
+     - 完成一個功能的實作並驗證通過
+     - 修復一個 bug 並確認修復
+     - 進行了大量檔案的新增、修改或刪除
+   - **提醒格式**：在回覆末尾加上 `🔖 Git Checkpoint` 區塊，包含：
+     - 建議的 commit 範圍（哪些檔案/目錄）
+     - 建議的 commit message
+     - 如果需要拆分多筆 commit，說明分拆理由
+   - **注意**：遵守 `git-mentor` skill 守則，僅提供建議，不代為執行 git 指令。
+
 ## 實作指引
 
 - 所有新 Skills、Workflows 在設計時：
