@@ -69,13 +69,12 @@
             <!-- Fund Selector -->
             <div class="chart-controls">
                 <select id="chart-fund-select" aria-label="選擇基金"></select>
-                <div class="toggle-group">
-                    <button class="chart-div-toggle active" data-mode="inclusive">含息</button>
-                    <button class="chart-div-toggle" data-mode="exclusive">不含息</button>
-                </div>
             </div>
 
-            <!-- Comparison Controls -->
+            <!-- Per-Fund Dividend Toggle -->
+            <div id="div-toggle-row" class="div-toggle-container"></div>
+
+            <!-- Comparison Controls (with Fuzzy Search) -->
             <div id="comparison-controls" class="comparison-container"></div>
 
             <!-- Chart Canvas -->

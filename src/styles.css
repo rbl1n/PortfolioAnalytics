@@ -83,19 +83,26 @@
 
 .tag {
     padding: 0.35rem 0.75rem;
-    border: 1px solid var(--pico-muted-border-color);
+    border: 1px solid var(--pico-secondary-border);
     border-radius: 2rem;
-    background: transparent;
-    color: var(--pico-color);
+    background: var(--pico-background-color);
+    color: var(--pico-secondary);
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.15s ease;
     white-space: nowrap;
 }
 
+[data-theme="light"] .tag {
+    color: #374151;
+    border-color: #d1d5db;
+    background: #f9fafb;
+}
+
 .tag:hover {
     border-color: var(--pico-primary);
     color: var(--pico-primary);
+    background: var(--pico-primary-focus);
 }
 
 .tag.active {
@@ -138,6 +145,20 @@
 
 .table-container table {
     white-space: nowrap;
+}
+
+.table-container td:nth-child(3),
+.table-container td:nth-child(4),
+.table-container td:nth-child(5),
+.table-container th:nth-child(3),
+.table-container th:nth-child(4),
+.table-container th:nth-child(5) {
+    text-align: right;
+}
+
+.table-container td:nth-child(6),
+.table-container th:nth-child(6) {
+    text-align: center;
 }
 
 .sortable {
@@ -253,7 +274,72 @@
 }
 
 /* ================================
-   Comparison Controls
+   Per-Fund Dividend Toggle
+   ================================ */
+.div-toggle-container {
+    margin-bottom: 0.75rem;
+}
+
+.div-toggle-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.div-toggle-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.div-toggle-name {
+    font-size: 0.85rem;
+    color: var(--pico-muted-color);
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.div-toggle-disabled {
+    font-size: 0.8rem;
+    color: var(--pico-muted-color);
+    font-style: italic;
+}
+
+.toggle-group-sm {
+    display: flex;
+    gap: 2px;
+}
+
+.toggle-sm {
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--pico-primary);
+    background: transparent;
+    color: var(--pico-primary);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin: 0;
+    width: auto;
+}
+
+.toggle-sm:first-child {
+    border-radius: 1rem 0 0 1rem;
+}
+
+.toggle-sm:last-child {
+    border-radius: 0 1rem 1rem 0;
+}
+
+.toggle-sm.active {
+    background: var(--pico-primary);
+    color: var(--pico-primary-inverse);
+}
+
+/* ================================
+   Comparison Controls + Fuzzy Search
    ================================ */
 .comparison-container {
     margin-bottom: 1rem;
@@ -266,10 +352,51 @@
     flex-wrap: wrap;
 }
 
-.comparison-row select {
-    margin-bottom: 0;
+.fuzzy-search-wrapper {
+    position: relative;
     flex: 1;
     min-width: 200px;
+}
+
+.fuzzy-search-wrapper input {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.fuzzy-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    background: var(--pico-background-color);
+    border: 1px solid var(--pico-muted-border-color);
+    border-top: none;
+    border-radius: 0 0 0.5rem 0.5rem;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.fuzzy-item {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.1s;
+}
+
+.fuzzy-item:hover {
+    background: var(--pico-primary-focus);
+}
+
+.fuzzy-item small {
+    color: var(--pico-muted-color);
+}
+
+.fuzzy-empty {
+    color: var(--pico-muted-color);
+    font-style: italic;
+    cursor: default;
 }
 
 .comparison-row button {
@@ -290,6 +417,21 @@
     border-radius: 1rem;
     background: var(--pico-muted-border-color);
     font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.chip-remove {
+    cursor: pointer;
+    font-size: 0.7rem;
+    opacity: 0.6;
+    transition: opacity 0.15s;
+}
+
+.chip-remove:hover {
+    opacity: 1;
+    color: var(--up-color);
 }
 
 /* ================================

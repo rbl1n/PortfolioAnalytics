@@ -1,83 +1,50 @@
 // chart.js — Tab 2: Trend analysis with line chart
-// Supports: single fund, multi-line comparison, aggregate mode, crosshair
+// Supports: single fund with dual lines (incl/excl div), multi-line comparison,
+//           per-fund dividend toggle, aggregate mode, crosshair, fuzzy search
 
 import { AppState } from './state.js';
 import { formatNumber, formatPercent, formatMonth, getMonthLabels, annualizedReturn, deriveCostBasis, getHoldingMonths, trendIcon, trendClass, toNTD, COLORS } from './utils.js';
 
 let chartInstance = null;
 
+// Track per-fund dividend settings
+// { cert: { includeDividend: true/false } }
+let fundDivSettings = {};
+
 export function initChart() {
-    // Fund selector change handler
-    const selector = document.getElementById('chart-fund-select');
-    if (selector) {
-        selector.addEventListener('change', (e) => {
-            AppState.selectedCert = e.target.value;
-            AppState.chartConfig.selectedCerts = [e.target.value];
-            renderChart();
-        });
-    }
-
-    // Dividend toggle
-    document.querySelectorAll('.chart-div-toggle').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.chart-div-toggle').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            AppState.chartConfig.includeDividend = btn.dataset.mode === 'inclusive';
-            renderChart();
-        });
-    });
-
-    // Aggregate toggle
-    const aggBtn = document.getElementById('aggregate-toggle');
-    if (aggBtn) {
-        aggBtn.addEventListener('click', () => {
-            AppState.chartConfig.aggregateMode = !AppState.chartConfig.aggregateMode;
-            aggBtn.classList.toggle('active', AppState.chartConfig.aggregateMode);
-            renderChart();
-        });
-    }
-
-    // Comparison add
-    const addBtn = document.getElementById('add-comparison-btn');
-    if (addBtn) {
-        addBtn.addEventListener('click', () => {
-            const select = document.getElementById('comparison-fund-select');
-            if (!select) return;
-            const cert = select.value;
-            if (cert && !AppState.chartConfig.selectedCerts.includes(cert)) {
-                if (AppState.chartConfig.selectedCerts.length >= 5) {
-                    alert('最多同時比較 5 檔基金');
-                    return;
-                }
-                AppState.chartConfig.selectedCerts.push(cert);
-                renderChart();
-            }
-        });
-    }
-
-    // Clear comparison
-    const clearBtn = document.getElementById('clear-comparison-btn');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-            if (AppState.selectedCert) {
-                AppState.chartConfig.selectedCerts = [AppState.selectedCert];
-            } else {
-                AppState.chartConfig.selectedCerts = [];
-            }
-            AppState.chartConfig.aggregateMode = false;
-            const aggToggle = document.getElementById('aggregate-toggle');
-            if (aggToggle) aggToggle.classList.remove('active');
-            renderChart();
-        });
-    }
+    // All event binding is handled in renderChart via delegation
 }
 
 export function renderChart() {
+    syncDivSettings();
     renderFundSelector();
     renderSummaryCard();
+    renderDivToggleRow();
     renderComparisonSelector();
     renderLineChart();
 }
+
+// --- Sync dividend settings for currently selected certs ---
+
+function syncDivSettings() {
+    const certs = AppState.chartConfig.selectedCerts;
+    certs.forEach(cert => {
+        if (!(cert in fundDivSettings)) {
+            const fund = AppState.rawData.funds[cert];
+            const hasDividend = fund && fund.dividend_type !== 'None' && fund.dividend_type !== '無';
+            fundDivSettings[cert] = {
+                includeDividend: hasDividend, // default: inclusive if has dividend
+                hasDividend,
+            };
+        }
+    });
+    // Clean up removed certs
+    Object.keys(fundDivSettings).forEach(cert => {
+        if (!certs.includes(cert)) delete fundDivSettings[cert];
+    });
+}
+
+// --- Fund Selector (Primary) ---
 
 function renderFundSelector() {
     const selector = document.getElementById('chart-fund-select');
@@ -91,7 +58,21 @@ function renderFundSelector() {
     selector.innerHTML = funds.map(f =>
         `<option value="${f.cert}" ${f.cert === AppState.selectedCert ? 'selected' : ''}>[${f.bank}] ${f.name} (${f.currency})</option>`
     ).join('');
+
+    // Re-bind change event (since we don't use persistent listeners)
+    selector.onchange = (e) => {
+        AppState.selectedCert = e.target.value;
+        // Replace first cert in comparison
+        if (AppState.chartConfig.selectedCerts.length > 0) {
+            AppState.chartConfig.selectedCerts[0] = e.target.value;
+        } else {
+            AppState.chartConfig.selectedCerts = [e.target.value];
+        }
+        renderChart();
+    };
 }
+
+// --- Summary Card ---
 
 function renderSummaryCard() {
     const card = document.getElementById('chart-summary-card');
@@ -141,21 +122,78 @@ function renderSummaryCard() {
     `;
 }
 
+// --- Per-Fund Dividend Toggle Row (#3, #5, #6) ---
+
+function renderDivToggleRow() {
+    const container = document.getElementById('div-toggle-row');
+    if (!container) return;
+
+    const certs = AppState.chartConfig.selectedCerts;
+    if (certs.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const items = certs.map(cert => {
+        const fund = AppState.rawData.funds[cert];
+        const setting = fundDivSettings[cert];
+        if (!fund || !setting) return '';
+
+        const shortName = fund.name.length > 12 ? fund.name.substring(0, 12) + '…' : fund.name;
+
+        if (!setting.hasDividend) {
+            // No dividend — show disabled state, always use profit_loss_ex_div
+            return `
+                <div class="div-toggle-item">
+                    <span class="div-toggle-name">${shortName}</span>
+                    <span class="div-toggle-disabled">無配息</span>
+                </div>
+            `;
+        }
+
+        return `
+            <div class="div-toggle-item">
+                <span class="div-toggle-name">${shortName}</span>
+                <div class="toggle-group-sm">
+                    <button class="toggle-sm ${setting.includeDividend ? 'active' : ''}"
+                            data-cert="${cert}" data-mode="inclusive">含息</button>
+                    <button class="toggle-sm ${!setting.includeDividend ? 'active' : ''}"
+                            data-cert="${cert}" data-mode="exclusive">不含息</button>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = `<div class="div-toggle-list">${items.join('')}</div>`;
+
+    // Bind toggle events
+    container.querySelectorAll('.toggle-sm').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const cert = btn.dataset.cert;
+            const mode = btn.dataset.mode;
+            fundDivSettings[cert].includeDividend = (mode === 'inclusive');
+            renderDivToggleRow();
+            renderLineChart();
+        });
+    });
+}
+
+// --- Comparison Selector with Fuzzy Search (#4) ---
+
 function renderComparisonSelector() {
     const container = document.getElementById('comparison-controls');
     if (!container) return;
 
-    const funds = Object.values(AppState.rawData.funds).sort((a, b) => a.name.localeCompare(b.name));
     const selected = AppState.chartConfig.selectedCerts;
 
     container.innerHTML = `
         <div class="comparison-row">
-            <select id="comparison-fund-select">
-                ${funds.filter(f => !selected.includes(f.cert)).map(f =>
-        `<option value="${f.cert}">${f.name} (${f.currency})</option>`
-    ).join('')}
-            </select>
-            <button id="add-comparison-btn" class="outline" ${selected.length >= 5 ? 'disabled' : ''}>
+            <div class="fuzzy-search-wrapper">
+                <input type="search" id="comparison-search" placeholder="搜尋基金名稱..."
+                       autocomplete="off" aria-label="搜尋基金">
+                <div id="comparison-dropdown" class="fuzzy-dropdown" hidden></div>
+            </div>
+            <button id="add-comparison-btn" class="outline" disabled>
                 + 比較 (${selected.length}/5)
             </button>
             ${selected.length > 1 ? `
@@ -167,32 +205,98 @@ function renderComparisonSelector() {
             <div class="comparison-chips">
                 ${selected.map(cert => {
         const f = AppState.rawData.funds[cert];
-        return `<span class="chip">${f ? f.name : cert}</span>`;
+        return `<span class="chip" data-cert="${cert}">${f ? f.name : cert} <span class="chip-remove" data-cert="${cert}">✕</span></span>`;
     }).join('')}
             </div>
         ` : ''}
     `;
 
-    // Re-bind events after re-render
-    document.getElementById('add-comparison-btn')?.addEventListener('click', () => {
-        const select = document.getElementById('comparison-fund-select');
-        if (!select) return;
-        const cert = select.value;
-        if (cert && !AppState.chartConfig.selectedCerts.includes(cert)) {
-            if (AppState.chartConfig.selectedCerts.length >= 5) {
+    // --- Fuzzy search logic ---
+    const searchInput = document.getElementById('comparison-search');
+    const dropdown = document.getElementById('comparison-dropdown');
+    const addBtn = document.getElementById('add-comparison-btn');
+    let pendingCert = null;
+
+    if (searchInput && dropdown) {
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            if (query.length === 0) {
+                dropdown.hidden = true;
+                addBtn.disabled = true;
+                pendingCert = null;
+                return;
+            }
+
+            const allFunds = Object.values(AppState.rawData.funds);
+            const matches = allFunds
+                .filter(f => !selected.includes(f.cert))
+                .filter(f => {
+                    return f.name.toLowerCase().includes(query)
+                        || f.bank.toLowerCase().includes(query)
+                        || f.cert.toLowerCase().includes(query)
+                        || f.currency.toLowerCase().includes(query);
+                })
+                .slice(0, 8); // Max 8 results
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = '<div class="fuzzy-item fuzzy-empty">找不到符合的基金</div>';
+                dropdown.hidden = false;
+                addBtn.disabled = true;
+                pendingCert = null;
+                return;
+            }
+
+            dropdown.innerHTML = matches.map(f => `
+                <div class="fuzzy-item" data-cert="${f.cert}">
+                    [${f.bank}] ${f.name} <small>(${f.currency})</small>
+                </div>
+            `).join('');
+            dropdown.hidden = false;
+
+            // Click on dropdown item
+            dropdown.querySelectorAll('.fuzzy-item[data-cert]').forEach(item => {
+                item.addEventListener('click', () => {
+                    pendingCert = item.dataset.cert;
+                    const fund = AppState.rawData.funds[pendingCert];
+                    searchInput.value = fund ? fund.name : pendingCert;
+                    dropdown.hidden = true;
+                    addBtn.disabled = false;
+                });
+            });
+        });
+
+        // Hide dropdown on blur (delayed to allow click)
+        searchInput.addEventListener('blur', () => {
+            setTimeout(() => { dropdown.hidden = true; }, 200);
+        });
+        searchInput.addEventListener('focus', () => {
+            if (searchInput.value.trim().length > 0) {
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        });
+    }
+
+    // Add button
+    if (addBtn) {
+        addBtn.addEventListener('click', () => {
+            if (!pendingCert || selected.includes(pendingCert)) return;
+            if (selected.length >= 5) {
                 alert('最多同時比較 5 檔基金');
                 return;
             }
-            AppState.chartConfig.selectedCerts.push(cert);
+            AppState.chartConfig.selectedCerts.push(pendingCert);
+            pendingCert = null;
             renderChart();
-        }
-    });
+        });
+    }
 
+    // Aggregate toggle
     document.getElementById('aggregate-toggle')?.addEventListener('click', () => {
         AppState.chartConfig.aggregateMode = !AppState.chartConfig.aggregateMode;
         renderChart();
     });
 
+    // Clear comparison
     document.getElementById('clear-comparison-btn')?.addEventListener('click', () => {
         if (AppState.selectedCert) {
             AppState.chartConfig.selectedCerts = [AppState.selectedCert];
@@ -200,7 +304,22 @@ function renderComparisonSelector() {
         AppState.chartConfig.aggregateMode = false;
         renderChart();
     });
+
+    // Chip remove buttons
+    container.querySelectorAll('.chip-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const cert = btn.dataset.cert;
+            AppState.chartConfig.selectedCerts = AppState.chartConfig.selectedCerts.filter(c => c !== cert);
+            if (AppState.chartConfig.selectedCerts.length === 0 && AppState.selectedCert) {
+                AppState.chartConfig.selectedCerts = [AppState.selectedCert];
+            }
+            renderChart();
+        });
+    });
 }
+
+// --- Line Chart (#3: dual lines for funds with dividends) ---
 
 function renderLineChart() {
     const canvas = document.getElementById('trendChart');
@@ -210,10 +329,8 @@ function renderLineChart() {
     const { rawData, chartConfig } = AppState;
     const months = rawData.months;
     const labels = getMonthLabels(months);
-    const includeDividend = chartConfig.includeDividend;
     const selectedCerts = chartConfig.selectedCerts;
 
-    // Destroy previous chart
     if (chartInstance) {
         chartInstance.destroy();
         chartInstance = null;
@@ -224,13 +341,15 @@ function renderLineChart() {
     let datasets;
 
     if (chartConfig.aggregateMode && selectedCerts.length > 1) {
-        // Aggregate mode: sum values
+        // Aggregate mode: sum values using each fund's dividend setting
         const aggregateData = months.map(m => {
             let sum = 0;
             selectedCerts.forEach(cert => {
                 const h = rawData.history[cert]?.[m];
                 if (h) {
-                    const val = includeDividend ? h.profit_loss : h.profit_loss_ex_div;
+                    const setting = fundDivSettings[cert];
+                    const useInclusive = setting?.hasDividend && setting?.includeDividend;
+                    const val = useInclusive ? h.profit_loss : h.profit_loss_ex_div;
                     const fund = rawData.funds[cert];
                     sum += toNTD(val, fund.currency);
                 }
@@ -248,25 +367,68 @@ function renderLineChart() {
             tension: 0.1,
         }];
     } else {
-        // Individual lines
-        datasets = selectedCerts.map((cert, idx) => {
+        // Individual lines — for funds with dividends, show both lines (#3)
+        datasets = [];
+        let colorIdx = 0;
+
+        selectedCerts.forEach(cert => {
             const fund = rawData.funds[cert];
             const history = rawData.history[cert];
-            const data = months.map(m => {
-                const h = history?.[m];
-                if (!h) return null;
-                return includeDividend ? h.profit_loss : h.profit_loss_ex_div;
-            });
+            const setting = fundDivSettings[cert];
+            if (!fund || !history) return;
 
-            return {
-                label: `${fund.name} (${fund.currency})`,
-                data,
-                borderColor: COLORS.chartPalette[idx % COLORS.chartPalette.length],
-                backgroundColor: 'transparent',
-                borderWidth: idx === 0 ? 3 : 2,
-                pointRadius: idx === 0 ? 5 : 3,
-                tension: 0.1,
-            };
+            const color = COLORS.chartPalette[colorIdx % COLORS.chartPalette.length];
+
+            if (setting?.hasDividend) {
+                // Show BOTH lines: inclusive (solid) and exclusive (dashed)
+                if (setting.includeDividend) {
+                    // Inclusive line (solid, prominent)
+                    datasets.push({
+                        label: `${fund.name} 含息`,
+                        data: months.map(m => history[m]?.profit_loss ?? null),
+                        borderColor: color,
+                        backgroundColor: 'transparent',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.1,
+                    });
+                    // Exclusive line (dashed, subtle)
+                    datasets.push({
+                        label: `${fund.name} 不含息`,
+                        data: months.map(m => history[m]?.profit_loss_ex_div ?? null),
+                        borderColor: color,
+                        backgroundColor: 'transparent',
+                        borderWidth: 1.5,
+                        borderDash: [6, 3],
+                        pointRadius: 2,
+                        tension: 0.1,
+                    });
+                } else {
+                    // Only show exclusive line
+                    datasets.push({
+                        label: `${fund.name} 不含息`,
+                        data: months.map(m => history[m]?.profit_loss_ex_div ?? null),
+                        borderColor: color,
+                        backgroundColor: 'transparent',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        tension: 0.1,
+                    });
+                }
+            } else {
+                // No dividend — single line (always exclusive)
+                datasets.push({
+                    label: fund.name,
+                    data: months.map(m => history[m]?.profit_loss_ex_div ?? null),
+                    borderColor: color,
+                    backgroundColor: 'transparent',
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    tension: 0.1,
+                });
+            }
+
+            colorIdx++;
         });
     }
 
@@ -277,7 +439,7 @@ function renderLineChart() {
             responsive: true,
             maintainAspectRatio: false,
             interaction: {
-                mode: 'index',       // Crosshair: show all datasets at same x
+                mode: 'index',
                 intersect: false,
             },
             plugins: {
@@ -292,7 +454,7 @@ function renderLineChart() {
                 },
                 legend: {
                     position: 'top',
-                    display: selectedCerts.length > 1 || chartConfig.aggregateMode,
+                    display: datasets.length > 1,
                 },
             },
             scales: {
