@@ -67,9 +67,26 @@ export function navigateToTab(tabId) {
 
 async function init() {
     try {
+        // Determine data path based on environment
+        const isDemo = window.location.hostname.includes('github.io')
+            || new URLSearchParams(window.location.search).has('demo');
+
+        const dataPath = isDemo
+            ? '../data/demo/demo-data.json'
+            : '../data/processed/data.json';
+
         // Load data
-        const response = await fetch('../data/processed/data.json');
+        const response = await fetch(dataPath);
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${dataPath}`);
         AppState.rawData = await response.json();
+
+        // Show demo banner if using mock data
+        if (isDemo) {
+            const banner = document.createElement('div');
+            banner.className = 'demo-banner';
+            banner.textContent = '🔶 DEMO 模式 — 顯示的是模擬資料，非真實數據';
+            document.querySelector('main')?.prepend(banner);
+        }
 
         // Load saved watchlists from localStorage
         loadWatchlists();

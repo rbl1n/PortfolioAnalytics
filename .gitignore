@@ -1,7 +1,11 @@
 .spectra/
 openspec/.vector-search.db
+openspec/.vector-search.db*
 
-# Data
+# Data — protect real financial data
 data/raw/
+data/processed/
 data/*.txt
 
+# Keep demo data tracked (override)
+!data/demo/

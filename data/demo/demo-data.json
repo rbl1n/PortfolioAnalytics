@@ -1,0 +1,999 @@
+{
+    "months": [
+        "0228",
+        "0331",
+        "0430",
+        "0531",
+        "0630",
+        "0731",
+        "0831",
+        "0930",
+        "1031",
+        "1130",
+        "1231"
+    ],
+    "funds": {
+        "DEMO001": {
+            "cert": "DEMO001",
+            "bank": "星展銀行",
+            "name": "全球非投資等級債券A配息",
+            "type": "單筆",
+            "currency": "USD",
+            "dividend_type": "月"
+        },
+        "DEMO002": {
+            "cert": "DEMO002",
+            "bank": "星展銀行",
+            "name": "台灣高股息龍頭基金",
+            "type": "月扣",
+            "currency": "NTD",
+            "dividend_type": "月"
+        },
+        "DEMO003": {
+            "cert": "DEMO003",
+            "bank": "星展銀行",
+            "name": "全球優先順位債券累積型",
+            "type": "單筆",
+            "currency": "CNY",
+            "dividend_type": "無"
+        },
+        "DEMO004": {
+            "cert": "DEMO004",
+            "bank": "台新銀行",
+            "name": "永續主題成長基金",
+            "type": "單筆",
+            "currency": "USD",
+            "dividend_type": "無"
+        },
+        "DEMO005": {
+            "cert": "DEMO005",
+            "bank": "台新銀行",
+            "name": "多重資產收益累積型",
+            "type": "單筆",
+            "currency": "USD",
+            "dividend_type": "無"
+        },
+        "DEMO006": {
+            "cert": "DEMO006",
+            "bank": "星展銀行",
+            "name": "美國政府債券配息型F",
+            "type": "單筆",
+            "currency": "USD",
+            "dividend_type": "月"
+        },
+        "DEMO007": {
+            "cert": "DEMO007",
+            "bank": "台新銀行",
+            "name": "收益成長月配息基金",
+            "type": "單筆",
+            "currency": "USD",
+            "dividend_type": "月"
+        },
+        "DEMO008": {
+            "cert": "DEMO008",
+            "bank": "中信銀行",
+            "name": "多重資產特別收益基金",
+            "type": "單筆",
+            "currency": "NTD",
+            "dividend_type": "月"
+        },
+        "DEMO009": {
+            "cert": "DEMO009",
+            "bank": "中信銀行",
+            "name": "全球醫療創新基金",
+            "type": "月扣",
+            "currency": "USD",
+            "dividend_type": "無"
+        },
+        "DEMO010": {
+            "cert": "DEMO010",
+            "bank": "中信銀行",
+            "name": "世界黃金礦業基金",
+            "type": "月扣",
+            "currency": "USD",
+            "dividend_type": "None"
+        }
+    },
+    "history": {
+        "DEMO001": {
+            "0228": {
+                "current_value": 5200,
+                "cumulative_dividend": 2800,
+                "profit_loss": 1500,
+                "profit_loss_ex_div": -1300,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 5050,
+                "cumulative_dividend": 2850,
+                "profit_loss": 1400,
+                "profit_loss_ex_div": -1450,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 5000,
+                "cumulative_dividend": 2900,
+                "profit_loss": 1400,
+                "profit_loss_ex_div": -1500,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0531": {
+                "current_value": 5100,
+                "cumulative_dividend": 2950,
+                "profit_loss": 1550,
+                "profit_loss_ex_div": -1400,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 5180,
+                "cumulative_dividend": 3000,
+                "profit_loss": 1680,
+                "profit_loss_ex_div": -1320,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 5220,
+                "cumulative_dividend": 3050,
+                "profit_loss": 1770,
+                "profit_loss_ex_div": -1280,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0831": {
+                "current_value": 5250,
+                "cumulative_dividend": 3100,
+                "profit_loss": 1850,
+                "profit_loss_ex_div": -1250,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0930": {
+                "current_value": 5250,
+                "cumulative_dividend": 3150,
+                "profit_loss": 1900,
+                "profit_loss_ex_div": -1250,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "1031": {
+                "current_value": 5200,
+                "cumulative_dividend": 3200,
+                "profit_loss": 1900,
+                "profit_loss_ex_div": -1300,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1130": {
+                "current_value": 5220,
+                "cumulative_dividend": 3250,
+                "profit_loss": 1970,
+                "profit_loss_ex_div": -1280,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1231": {
+                "current_value": 5180,
+                "cumulative_dividend": 3300,
+                "profit_loss": 1980,
+                "profit_loss_ex_div": -1320,
+                "return_rate": 15.2,
+                "trend": "down"
+            }
+        },
+        "DEMO002": {
+            "0228": {
+                "current_value": 135000,
+                "cumulative_dividend": 12000,
+                "profit_loss": 22000,
+                "profit_loss_ex_div": 10000,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 128000,
+                "cumulative_dividend": 12500,
+                "profit_loss": 15500,
+                "profit_loss_ex_div": 3000,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 131000,
+                "cumulative_dividend": 13000,
+                "profit_loss": 14000,
+                "profit_loss_ex_div": 1000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0531": {
+                "current_value": 138000,
+                "cumulative_dividend": 13500,
+                "profit_loss": 21500,
+                "profit_loss_ex_div": 8000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 142000,
+                "cumulative_dividend": 14000,
+                "profit_loss": 26000,
+                "profit_loss_ex_div": 12000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 148000,
+                "cumulative_dividend": 14500,
+                "profit_loss": 32500,
+                "profit_loss_ex_div": 18000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0831": {
+                "current_value": 155000,
+                "cumulative_dividend": 15000,
+                "profit_loss": 40000,
+                "profit_loss_ex_div": 25000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0930": {
+                "current_value": 158000,
+                "cumulative_dividend": 15500,
+                "profit_loss": 43500,
+                "profit_loss_ex_div": 28000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1031": {
+                "current_value": 162000,
+                "cumulative_dividend": 16000,
+                "profit_loss": 48000,
+                "profit_loss_ex_div": 32000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1130": {
+                "current_value": 172000,
+                "cumulative_dividend": 16500,
+                "profit_loss": 58500,
+                "profit_loss_ex_div": 42000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1231": {
+                "current_value": 189000,
+                "cumulative_dividend": 17000,
+                "profit_loss": 76000,
+                "profit_loss_ex_div": 59000,
+                "return_rate": 38.5,
+                "trend": "up"
+            }
+        },
+        "DEMO003": {
+            "0228": {
+                "current_value": 125000,
+                "cumulative_dividend": 0,
+                "profit_loss": 5000,
+                "profit_loss_ex_div": 5000,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 123000,
+                "cumulative_dividend": 0,
+                "profit_loss": 3000,
+                "profit_loss_ex_div": 3000,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 121000,
+                "cumulative_dividend": 0,
+                "profit_loss": 1000,
+                "profit_loss_ex_div": 1000,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0531": {
+                "current_value": 122000,
+                "cumulative_dividend": 0,
+                "profit_loss": 2000,
+                "profit_loss_ex_div": 2000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 123500,
+                "cumulative_dividend": 0,
+                "profit_loss": 3500,
+                "profit_loss_ex_div": 3500,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 124000,
+                "cumulative_dividend": 0,
+                "profit_loss": 4000,
+                "profit_loss_ex_div": 4000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0831": {
+                "current_value": 123500,
+                "cumulative_dividend": 0,
+                "profit_loss": 3500,
+                "profit_loss_ex_div": 3500,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0930": {
+                "current_value": 124500,
+                "cumulative_dividend": 0,
+                "profit_loss": 4500,
+                "profit_loss_ex_div": 4500,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1031": {
+                "current_value": 125000,
+                "cumulative_dividend": 0,
+                "profit_loss": 5000,
+                "profit_loss_ex_div": 5000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1130": {
+                "current_value": 124000,
+                "cumulative_dividend": 0,
+                "profit_loss": 4000,
+                "profit_loss_ex_div": 4000,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1231": {
+                "current_value": 123000,
+                "cumulative_dividend": 0,
+                "profit_loss": 3000,
+                "profit_loss_ex_div": 3000,
+                "return_rate": 11.0,
+                "trend": "down"
+            }
+        },
+        "DEMO004": {
+            "0228": {
+                "current_value": 18500,
+                "cumulative_dividend": 0,
+                "profit_loss": -1500,
+                "profit_loss_ex_div": -1500,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 17800,
+                "cumulative_dividend": 0,
+                "profit_loss": -2200,
+                "profit_loss_ex_div": -2200,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 17200,
+                "cumulative_dividend": 0,
+                "profit_loss": -2800,
+                "profit_loss_ex_div": -2800,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0531": {
+                "current_value": 18000,
+                "cumulative_dividend": 0,
+                "profit_loss": -2000,
+                "profit_loss_ex_div": -2000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 18600,
+                "cumulative_dividend": 0,
+                "profit_loss": -1400,
+                "profit_loss_ex_div": -1400,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 19200,
+                "cumulative_dividend": 0,
+                "profit_loss": -800,
+                "profit_loss_ex_div": -800,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0831": {
+                "current_value": 19600,
+                "cumulative_dividend": 0,
+                "profit_loss": -400,
+                "profit_loss_ex_div": -400,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0930": {
+                "current_value": 19400,
+                "cumulative_dividend": 0,
+                "profit_loss": -600,
+                "profit_loss_ex_div": -600,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1031": {
+                "current_value": 19800,
+                "cumulative_dividend": 0,
+                "profit_loss": -200,
+                "profit_loss_ex_div": -200,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1130": {
+                "current_value": 19500,
+                "cumulative_dividend": 0,
+                "profit_loss": -500,
+                "profit_loss_ex_div": -500,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1231": {
+                "current_value": 19100,
+                "cumulative_dividend": 0,
+                "profit_loss": -900,
+                "profit_loss_ex_div": -900,
+                "return_rate": -5.1,
+                "trend": "down"
+            }
+        },
+        "DEMO005": {
+            "0228": {
+                "current_value": 11200,
+                "cumulative_dividend": 0,
+                "profit_loss": 1200,
+                "profit_loss_ex_div": 1200,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 10800,
+                "cumulative_dividend": 0,
+                "profit_loss": 800,
+                "profit_loss_ex_div": 800,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 10500,
+                "cumulative_dividend": 0,
+                "profit_loss": 500,
+                "profit_loss_ex_div": 500,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0531": {
+                "current_value": 10900,
+                "cumulative_dividend": 0,
+                "profit_loss": 900,
+                "profit_loss_ex_div": 900,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 11100,
+                "cumulative_dividend": 0,
+                "profit_loss": 1100,
+                "profit_loss_ex_div": 1100,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 11400,
+                "cumulative_dividend": 0,
+                "profit_loss": 1400,
+                "profit_loss_ex_div": 1400,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0831": {
+                "current_value": 11600,
+                "cumulative_dividend": 0,
+                "profit_loss": 1600,
+                "profit_loss_ex_div": 1600,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0930": {
+                "current_value": 11500,
+                "cumulative_dividend": 0,
+                "profit_loss": 1500,
+                "profit_loss_ex_div": 1500,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1031": {
+                "current_value": 11700,
+                "cumulative_dividend": 0,
+                "profit_loss": 1700,
+                "profit_loss_ex_div": 1700,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1130": {
+                "current_value": 11800,
+                "cumulative_dividend": 0,
+                "profit_loss": 1800,
+                "profit_loss_ex_div": 1800,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1231": {
+                "current_value": 11000,
+                "cumulative_dividend": 0,
+                "profit_loss": 1000,
+                "profit_loss_ex_div": 1000,
+                "return_rate": 11.1,
+                "trend": "down"
+            }
+        },
+        "DEMO006": {
+            "0228": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0430": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0531": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0630": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0731": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0831": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0930": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "1031": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "1130": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "1231": {
+                "current_value": 0,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "down"
+            }
+        },
+        "DEMO007": {
+            "0228": {
+                "current_value": 22000,
+                "cumulative_dividend": 3500,
+                "profit_loss": 5500,
+                "profit_loss_ex_div": 2000,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 21500,
+                "cumulative_dividend": 3700,
+                "profit_loss": 5200,
+                "profit_loss_ex_div": 1500,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 21000,
+                "cumulative_dividend": 3900,
+                "profit_loss": 4900,
+                "profit_loss_ex_div": 1000,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0531": {
+                "current_value": 21800,
+                "cumulative_dividend": 4100,
+                "profit_loss": 5900,
+                "profit_loss_ex_div": 1800,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 22200,
+                "cumulative_dividend": 4300,
+                "profit_loss": 6500,
+                "profit_loss_ex_div": 2200,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 22500,
+                "cumulative_dividend": 4500,
+                "profit_loss": 7000,
+                "profit_loss_ex_div": 2500,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0831": {
+                "current_value": 22800,
+                "cumulative_dividend": 4700,
+                "profit_loss": 7500,
+                "profit_loss_ex_div": 2800,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0930": {
+                "current_value": 22600,
+                "cumulative_dividend": 4900,
+                "profit_loss": 7500,
+                "profit_loss_ex_div": 2600,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1031": {
+                "current_value": 22400,
+                "cumulative_dividend": 5100,
+                "profit_loss": 7500,
+                "profit_loss_ex_div": 2400,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1130": {
+                "current_value": 22700,
+                "cumulative_dividend": 5300,
+                "profit_loss": 8000,
+                "profit_loss_ex_div": 2700,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1231": {
+                "current_value": 20800,
+                "cumulative_dividend": 5500,
+                "profit_loss": 6300,
+                "profit_loss_ex_div": 800,
+                "return_rate": 15.0,
+                "trend": "down"
+            }
+        },
+        "DEMO008": {
+            "0228": {
+                "current_value": 520000,
+                "cumulative_dividend": 28000,
+                "profit_loss": 18000,
+                "profit_loss_ex_div": -10000,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 510000,
+                "cumulative_dividend": 30000,
+                "profit_loss": 10000,
+                "profit_loss_ex_div": -20000,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 515000,
+                "cumulative_dividend": 32000,
+                "profit_loss": 17000,
+                "profit_loss_ex_div": -15000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0531": {
+                "current_value": 525000,
+                "cumulative_dividend": 34000,
+                "profit_loss": 29000,
+                "profit_loss_ex_div": -5000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 530000,
+                "cumulative_dividend": 36000,
+                "profit_loss": 36000,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 535000,
+                "cumulative_dividend": 38000,
+                "profit_loss": 43000,
+                "profit_loss_ex_div": 5000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0831": {
+                "current_value": 540000,
+                "cumulative_dividend": 40000,
+                "profit_loss": 50000,
+                "profit_loss_ex_div": 10000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0930": {
+                "current_value": 538000,
+                "cumulative_dividend": 42000,
+                "profit_loss": 50000,
+                "profit_loss_ex_div": 8000,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1031": {
+                "current_value": 542000,
+                "cumulative_dividend": 44000,
+                "profit_loss": 56000,
+                "profit_loss_ex_div": 12000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1130": {
+                "current_value": 530000,
+                "cumulative_dividend": 46000,
+                "profit_loss": 46000,
+                "profit_loss_ex_div": 0,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1231": {
+                "current_value": 526000,
+                "cumulative_dividend": 48000,
+                "profit_loss": 44000,
+                "profit_loss_ex_div": -4000,
+                "return_rate": 4.1,
+                "trend": "down"
+            }
+        },
+        "DEMO009": {
+            "0228": {
+                "current_value": 16500,
+                "cumulative_dividend": 0,
+                "profit_loss": 500,
+                "profit_loss_ex_div": 500,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 16200,
+                "cumulative_dividend": 0,
+                "profit_loss": 200,
+                "profit_loss_ex_div": 200,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 16800,
+                "cumulative_dividend": 0,
+                "profit_loss": 800,
+                "profit_loss_ex_div": 800,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0531": {
+                "current_value": 17100,
+                "cumulative_dividend": 0,
+                "profit_loss": 1100,
+                "profit_loss_ex_div": 1100,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 17500,
+                "cumulative_dividend": 0,
+                "profit_loss": 1500,
+                "profit_loss_ex_div": 1500,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 17200,
+                "cumulative_dividend": 0,
+                "profit_loss": 1200,
+                "profit_loss_ex_div": 1200,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0831": {
+                "current_value": 17600,
+                "cumulative_dividend": 0,
+                "profit_loss": 1600,
+                "profit_loss_ex_div": 1600,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0930": {
+                "current_value": 17400,
+                "cumulative_dividend": 0,
+                "profit_loss": 1400,
+                "profit_loss_ex_div": 1400,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1031": {
+                "current_value": 17800,
+                "cumulative_dividend": 0,
+                "profit_loss": 1800,
+                "profit_loss_ex_div": 1800,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1130": {
+                "current_value": 17600,
+                "cumulative_dividend": 0,
+                "profit_loss": 1600,
+                "profit_loss_ex_div": 1600,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1231": {
+                "current_value": 16000,
+                "cumulative_dividend": 0,
+                "profit_loss": 0,
+                "profit_loss_ex_div": 0,
+                "return_rate": 3.9,
+                "trend": "down"
+            }
+        },
+        "DEMO010": {
+            "0228": {
+                "current_value": 8200,
+                "cumulative_dividend": 0,
+                "profit_loss": 200,
+                "profit_loss_ex_div": 200,
+                "return_rate": 0.0,
+                "trend": "flat"
+            },
+            "0331": {
+                "current_value": 7800,
+                "cumulative_dividend": 0,
+                "profit_loss": -200,
+                "profit_loss_ex_div": -200,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "0430": {
+                "current_value": 8500,
+                "cumulative_dividend": 0,
+                "profit_loss": 500,
+                "profit_loss_ex_div": 500,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0531": {
+                "current_value": 9200,
+                "cumulative_dividend": 0,
+                "profit_loss": 1200,
+                "profit_loss_ex_div": 1200,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0630": {
+                "current_value": 9800,
+                "cumulative_dividend": 0,
+                "profit_loss": 1800,
+                "profit_loss_ex_div": 1800,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0731": {
+                "current_value": 10500,
+                "cumulative_dividend": 0,
+                "profit_loss": 2500,
+                "profit_loss_ex_div": 2500,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0831": {
+                "current_value": 11200,
+                "cumulative_dividend": 0,
+                "profit_loss": 3200,
+                "profit_loss_ex_div": 3200,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "0930": {
+                "current_value": 10800,
+                "cumulative_dividend": 0,
+                "profit_loss": 2800,
+                "profit_loss_ex_div": 2800,
+                "return_rate": 0.0,
+                "trend": "down"
+            },
+            "1031": {
+                "current_value": 11500,
+                "cumulative_dividend": 0,
+                "profit_loss": 3500,
+                "profit_loss_ex_div": 3500,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1130": {
+                "current_value": 12000,
+                "cumulative_dividend": 0,
+                "profit_loss": 4000,
+                "profit_loss_ex_div": 4000,
+                "return_rate": 0.0,
+                "trend": "up"
+            },
+            "1231": {
+                "current_value": 8100,
+                "cumulative_dividend": 0,
+                "profit_loss": 100,
+                "profit_loss_ex_div": 100,
+                "return_rate": 5.7,
+                "trend": "down"
+            }
+        }
+    }
+}
