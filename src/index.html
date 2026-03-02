@@ -77,7 +77,14 @@
             <!-- Comparison Controls (with Fuzzy Search) -->
             <div id="comparison-controls" class="comparison-container"></div>
 
-            <!-- Chart Canvas -->
+            <!-- Y-Axis Mode + Chart Canvas -->
+            <div class="chart-axis-controls">
+                <span class="axis-label">Y 軸</span>
+                <div class="toggle-group">
+                    <button class="yaxis-toggle active" data-mode="absolute">現值</button>
+                    <button class="yaxis-toggle" data-mode="percent">漲跌幅 %</button>
+                </div>
+            </div>
             <div class="chart-wrapper">
                 <canvas id="trendChart"></canvas>
             </div>

@@ -11,6 +11,9 @@ let chartInstance = null;
 // { cert: { includeDividend: true/false } }
 let fundDivSettings = {};
 
+// Y-axis display mode: 'absolute' (raw values) or 'percent' (first month = 0%)
+let yAxisMode = 'absolute';
+
 export function initChart() {
     // All event binding is handled in renderChart via delegation
 }
@@ -21,7 +24,21 @@ export function renderChart() {
     renderSummaryCard();
     renderDivToggleRow();
     renderComparisonSelector();
+    bindYAxisToggle();
     renderLineChart();
+}
+
+// --- Y-axis toggle ---
+
+function bindYAxisToggle() {
+    document.querySelectorAll('.yaxis-toggle').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === yAxisMode);
+        btn.onclick = () => {
+            yAxisMode = btn.dataset.mode;
+            document.querySelectorAll('.yaxis-toggle').forEach(b => b.classList.toggle('active', b.dataset.mode === yAxisMode));
+            renderLineChart();
+        };
+    });
 }
 
 // --- Sync dividend settings for currently selected certs ---
@@ -319,7 +336,26 @@ function renderComparisonSelector() {
     });
 }
 
-// --- Line Chart (#3: dual lines for funds with dividends) ---
+// --- Helpers for percent normalization ---
+
+/**
+ * Convert raw data series to percent change from first non-null value.
+ * First valid point = 0%, subsequent = ((val - base) / |base|) * 100
+ */
+function toPercentSeries(rawData) {
+    let base = null;
+    return rawData.map(val => {
+        if (val == null) return null;
+        if (base === null) {
+            base = val;
+            return 0; // first point = 0%
+        }
+        if (base === 0) return 0;
+        return ((val - base) / Math.abs(base)) * 100;
+    });
+}
+
+// --- Line Chart ---
 
 function renderLineChart() {
     const canvas = document.getElementById('trendChart');
@@ -330,6 +366,7 @@ function renderLineChart() {
     const months = rawData.months;
     const labels = getMonthLabels(months);
     const selectedCerts = chartConfig.selectedCerts;
+    const isPercent = yAxisMode === 'percent';
 
     if (chartInstance) {
         chartInstance.destroy();
@@ -342,7 +379,7 @@ function renderLineChart() {
 
     if (chartConfig.aggregateMode && selectedCerts.length > 1) {
         // Aggregate mode: sum values using each fund's dividend setting
-        const aggregateData = months.map(m => {
+        const rawSeries = months.map(m => {
             let sum = 0;
             selectedCerts.forEach(cert => {
                 const h = rawData.history[cert]?.[m];
@@ -357,9 +394,11 @@ function renderLineChart() {
             return Math.round(sum);
         });
 
+        const data = isPercent ? toPercentSeries(rawSeries) : rawSeries;
+
         datasets = [{
-            label: '加總走勢 (約當NTD)',
-            data: aggregateData,
+            label: isPercent ? '加總走勢 (%)' : '加總走勢 (約當NTD)',
+            data,
             borderColor: COLORS.chartPalette[0],
             backgroundColor: `${COLORS.chartPalette[0]}20`,
             borderWidth: 3,
@@ -367,7 +406,7 @@ function renderLineChart() {
             tension: 0.1,
         }];
     } else {
-        // Individual lines — for funds with dividends, show both lines (#3)
+        // Individual lines — for funds with dividends, show both lines
         datasets = [];
         let colorIdx = 0;
 
@@ -379,53 +418,44 @@ function renderLineChart() {
 
             const color = COLORS.chartPalette[colorIdx % COLORS.chartPalette.length];
 
-            if (setting?.hasDividend) {
-                // Show BOTH lines: inclusive (solid) and exclusive (dashed)
-                if (setting.includeDividend) {
-                    // Inclusive line (solid, prominent)
-                    datasets.push({
-                        label: `${fund.name} 含息`,
-                        data: months.map(m => history[m]?.profit_loss ?? null),
-                        borderColor: color,
-                        backgroundColor: 'transparent',
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        tension: 0.1,
-                    });
-                    // Exclusive line (dashed, subtle)
-                    datasets.push({
-                        label: `${fund.name} 不含息`,
-                        data: months.map(m => history[m]?.profit_loss_ex_div ?? null),
-                        borderColor: color,
-                        backgroundColor: 'transparent',
-                        borderWidth: 1.5,
-                        borderDash: [6, 3],
-                        pointRadius: 2,
-                        tension: 0.1,
-                    });
-                } else {
-                    // Only show exclusive line
-                    datasets.push({
-                        label: `${fund.name} 不含息`,
-                        data: months.map(m => history[m]?.profit_loss_ex_div ?? null),
-                        borderColor: color,
-                        backgroundColor: 'transparent',
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        tension: 0.1,
-                    });
-                }
-            } else {
-                // No dividend — single line (always exclusive)
-                datasets.push({
-                    label: fund.name,
-                    data: months.map(m => history[m]?.profit_loss_ex_div ?? null),
+            const buildDataset = (label, rawSeries, opts = {}) => {
+                const data = isPercent ? toPercentSeries(rawSeries) : rawSeries;
+                return {
+                    label: isPercent ? `${label} (%)` : label,
+                    data,
                     borderColor: color,
                     backgroundColor: 'transparent',
                     borderWidth: 3,
                     pointRadius: 4,
                     tension: 0.1,
-                });
+                    ...opts,
+                };
+            };
+
+            if (setting?.hasDividend) {
+                if (setting.includeDividend) {
+                    // Inclusive line (solid)
+                    datasets.push(buildDataset(
+                        `${fund.name} 含息`,
+                        months.map(m => history[m]?.profit_loss ?? null)
+                    ));
+                    // Exclusive line (dashed)
+                    datasets.push(buildDataset(
+                        `${fund.name} 不含息`,
+                        months.map(m => history[m]?.profit_loss_ex_div ?? null),
+                        { borderWidth: 1.5, borderDash: [6, 3], pointRadius: 2 }
+                    ));
+                } else {
+                    datasets.push(buildDataset(
+                        `${fund.name} 不含息`,
+                        months.map(m => history[m]?.profit_loss_ex_div ?? null)
+                    ));
+                }
+            } else {
+                datasets.push(buildDataset(
+                    fund.name,
+                    months.map(m => history[m]?.profit_loss_ex_div ?? null)
+                ));
             }
 
             colorIdx++;
@@ -448,6 +478,9 @@ function renderLineChart() {
                     callbacks: {
                         label: function (context) {
                             const val = context.parsed.y;
+                            if (isPercent) {
+                                return `${context.dataset.label}: ${val >= 0 ? '+' : ''}${val.toFixed(2)}%`;
+                            }
                             return `${context.dataset.label}: ${formatNumber(val)}`;
                         }
                     }
@@ -458,7 +491,15 @@ function renderLineChart() {
                 },
             },
             scales: {
-                y: { beginAtZero: false },
+                y: {
+                    beginAtZero: isPercent,
+                    ticks: {
+                        callback: function (value) {
+                            if (isPercent) return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+                            return formatNumber(value);
+                        }
+                    }
+                },
             },
         },
     });

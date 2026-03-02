@@ -234,6 +234,19 @@
     color: var(--pico-primary-inverse);
 }
 
+.chart-axis-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.axis-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--pico-muted-color);
+}
+
 .chart-wrapper {
     position: relative;
     height: 300px;
